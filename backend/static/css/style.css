@@ -1,0 +1,52 @@
+body {
+  background-color: #f8f9fa;
+}
+
+.user-card {
+  border: 1px solid #dee2e6;
+  transition: transform .15s, box-shadow .15s;
+  color: inherit;
+}
+.user-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0,0,0,.1);
+}
+
+.user-avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #4e79a7;
+  color: #fff;
+  font-size: 1.6rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.user-avatar-sm {
+  display: inline-flex;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #4e79a7;
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 700;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  margin-right: .4rem;
+}
+
+.compare-table th, .compare-table td {
+  white-space: nowrap;
+}
+.compare-table .song-cell {
+  max-width: 260px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

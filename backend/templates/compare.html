@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block title %}Vergleich — Navidrome Stats{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">User-Vergleich</h1>
+<p class="text-muted mb-4">Top 20 Songs global — Plays pro User im Vergleich.</p>
+
+<div class="mb-5">
+  <canvas id="compareChart" height="120"></canvas>
+</div>
+
+<div class="table-responsive" id="compareTable">
+  <p class="text-muted">Lade Daten…</p>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script type="module">
+import { COLORS } from "{{ url_for('static', filename='js/charts.js') }}";
+
+fetch('/api/compare/songs')
+  .then(r => r.json())
+  .then(({ songs, users, matrix }) => {
+    if (!songs.length) {
+      document.getElementById('compareTable').innerHTML =
+        '<p class="text-muted">Keine Daten vorhanden.</p>';
+      return;
+    }
+
+    // Grouped bar chart: one dataset per user
+    const datasets = users.map((u, i) => ({
+      label: u,
+      data: matrix[i],
+      backgroundColor: COLORS[i % COLORS.length] + 'cc',
+      borderColor: COLORS[i % COLORS.length],
+      borderWidth: 1,
+    }));
+
+    new Chart(document.getElementById('compareChart'), {
+      type: 'bar',
+      data: { labels: songs, datasets },
+      options: {
+        responsive: true,
+        plugins: { legend: { position: 'top' } },
+        scales: {
+          x: { ticks: { maxRotation: 45, font: { size: 11 } } },
+          y: { beginAtZero: true, title: { display: true, text: 'Plays' } },
+        },
+      },
+    });
+
+    // Comparison table
+    const maxPerSong = songs.map((_, si) => Math.max(...matrix.map(row => row[si])));
+    let html = '<table class="table table-sm table-bordered compare-table"><thead><tr>';
+    html += '<th>Song</th>' + users.map(u => `<th>${u}</th>`).join('') + '</tr></thead><tbody>';
+    songs.forEach((song, si) => {
+      html += '<tr><td class="song-cell">' + song + '</td>';
+      users.forEach((_, ui) => {
+        const v = matrix[ui][si];
+        const isTop = v > 0 && v === maxPerSong[si];
+        html += `<td class="${v === 0 ? 'text-muted' : ''}${isTop ? ' fw-bold text-success' : ''}">${v || '—'}</td>`;
+      });
+      html += '</tr>';
+    });
+    html += '</tbody></table>';
+    document.getElementById('compareTable').innerHTML = html;
+  });
+</script>
+{% endblock %}
