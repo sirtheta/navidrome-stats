@@ -12,7 +12,7 @@ def build_sample_db():
 
 def _create_schema(conn):
     conn.executescript("""
-        CREATE TABLE users (
+        CREATE TABLE user (
             id TEXT PRIMARY KEY,
             user_name TEXT NOT NULL
         );
@@ -92,7 +92,7 @@ def _seed(conn):
         ("t20", "Let Down", "Radiohead", "ar1", "OK Computer", "al1"),
     ]
 
-    conn.executemany("INSERT INTO users VALUES (?,?)", users)
+    conn.executemany("INSERT INTO user VALUES (?,?)", users)
     conn.executemany("INSERT INTO artist VALUES (?,?)", artists)
     conn.executemany("INSERT INTO album VALUES (?,?,?,?,?)", albums)
     conn.executemany("INSERT INTO media_file VALUES (?,?,?,?,?,?,?)",

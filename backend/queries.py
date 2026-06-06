@@ -2,7 +2,7 @@ def get_all_users(db):
     rows = db.execute("""
         SELECT u.id, u.user_name,
                COALESCE(SUM(a.play_count), 0) AS total_plays
-        FROM users u
+        FROM user u
         LEFT JOIN annotation a ON a.user_id = u.id
             AND a.item_type = 'media_file'
             AND a.play_count > 0
@@ -14,7 +14,7 @@ def get_all_users(db):
 
 def get_user_by_name(db, user_name):
     row = db.execute(
-        "SELECT id, user_name FROM users WHERE user_name = ?", (user_name,)
+        "SELECT id, user_name FROM user WHERE user_name = ?", (user_name,)
     ).fetchone()
     return dict(row) if row else None
 
@@ -82,7 +82,7 @@ def get_global_top_songs(db, limit=10):
 
 def get_cross_user_matrix(db, limit=20):
     users = db.execute(
-        "SELECT id, user_name FROM users ORDER BY user_name"
+        "SELECT id, user_name FROM user ORDER BY user_name"
     ).fetchall()
     users = [dict(u) for u in users]
 
