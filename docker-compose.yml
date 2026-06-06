@@ -1,6 +1,6 @@
 services:
   navidrome-stats:
-    build: ./backend
+    image: ghcr.io/sirtheta/navidrome-stats:latest
     container_name: navidrome_stats
     ports:
       - "${HOST_PORT:-8080}:5000"
