@@ -1,12 +1,21 @@
 FROM python:3.12-slim
 
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
+
+ENV UV_COMPILE_BYTECODE=1
+ENV UV_LINK_MODE=copy
+
 WORKDIR /app
 
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+# Copy only dependency files first (for better caching)
+COPY pyproject.toml uv.lock ./
 
+# Install dependencies in a separate layer (cached unless dependencies change)
+RUN uv sync --frozen --no-dev
+
+# Copy the rest of the application code
 COPY . .
 
 EXPOSE 5000
 
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "--workers", "1", "--threads", "4", "app:app"]
+ENTRYPOINT ["sh", "./entrypoint.sh"]

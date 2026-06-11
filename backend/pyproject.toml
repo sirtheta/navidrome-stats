@@ -1,0 +1,10 @@
+[project]
+name = "navidrome-stats"
+version = "0.1.0"
+description = "Web App to check what is going on in navidrome"
+readme = "README.md"
+requires-python = ">=3.12.5"
+dependencies = [
+    "flask==3.1.0",
+    "gunicorn==23.0.0",
+]

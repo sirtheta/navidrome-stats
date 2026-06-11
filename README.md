@@ -59,8 +59,8 @@ Run locally without Docker (requires Python 3.12+):
 
 ```bash
 cd backend
-pip install -r requirements.txt
-python app.py
+uv sync
+uv run python app.py
 ```
 
 If `navidrome.db` is not found at the configured path, the app automatically falls back to built-in sample data so the UI is still usable.
