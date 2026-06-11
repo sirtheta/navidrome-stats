@@ -5,6 +5,8 @@ description = "Web App to check what is going on in navidrome"
 readme = "README.md"
 requires-python = ">=3.12.5"
 dependencies = [
+    "fastapi[standard]>=0.136.3",
     "flask==3.1.0",
     "gunicorn==23.0.0",
+    "sqlalchemy>=2.0.50",
 ]
