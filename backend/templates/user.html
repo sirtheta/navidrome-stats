@@ -86,7 +86,7 @@
 
 {% block scripts %}
 <script type="module">
-import { renderHBar } from "{{ url_for('static', filename='js/charts.js') }}";
+import { renderHBar } from "{{ url_for('static',path='js/charts.js') }}";
 const u = {{ user.user_name | tojson }};
 Promise.all([
   fetch(`/api/user/${u}/top-songs`).then(r => r.json()),

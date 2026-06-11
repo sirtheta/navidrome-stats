@@ -1,13 +1,10 @@
-
 from typing import Any
-from app.schemas import TopArtist
-from app.schemas import TopAlbum
-from app.schemas import TopSong
+
 from sqlalchemy import desc, func, select
 from sqlalchemy.orm import Session
 
 from app.db.models import Annotation, MediaFile, User
-from app.schemas import UserOut
+from app.schemas import TopAlbum, TopArtist, TopSong, UserOut
 
 
 def get_all_users(db: Session) -> list[UserOut]:
@@ -85,7 +82,7 @@ def get_top_albums(db: Session, user_id: str, limit: int = 10) -> list[TopAlbum]
 
     results = db.execute(query).all()
     return [
-        TopAlbum(name=r._tuple()[0], artist= r._tuple()[1], play_count= r._tuple()[2])
+        TopAlbum(name=r._tuple()[0], artist=r._tuple()[1], play_count=r._tuple()[2])
         for r in results
     ]
 
@@ -110,10 +107,7 @@ def get_top_artists(db: Session, user_id: str, limit: int = 10) -> list[TopArtis
     )
 
     results = db.execute(query).all()
-    return [
-        TopArtist(name= r._tuple()[0], play_count= r._tuple()[1])
-        for r in results
-    ]
+    return [TopArtist(name=r._tuple()[0], play_count=r._tuple()[1]) for r in results]
 
 
 def get_global_top_songs(db: Session, limit: int = 10) -> list[TopSong]:
@@ -135,7 +129,7 @@ def get_global_top_songs(db: Session, limit: int = 10) -> list[TopSong]:
 
     results = db.execute(query).all()
     return [
-        TopSong(title= r._tuple()[0], artist= r._tuple()[1], play_count= r._tuple()[2])
+        TopSong(title=r._tuple()[0], artist=r._tuple()[1], play_count=r._tuple()[2])
         for r in results
     ]
 
@@ -194,7 +188,7 @@ def get_cross_user_matrix(db: Session, limit: int = 20) -> dict[str, Any]:
         matrix.append(row)
 
     return {
-        "songs": [f'{s["title"]} — {s["artist"]}' for s in top_songs],
+        "songs": [f"{s['title']} — {s['artist']}" for s in top_songs],
         "users": [u["user_name"] for u in users],
         "matrix": matrix,
     }
