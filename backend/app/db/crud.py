@@ -1,132 +1,200 @@
-from sqlalchemy.orm import UserDefinedOption
-from app.schemas import UserOut
-from sqlalchemy import desc
-from sqlalchemy import func
-from sqlalchemy import select
+
+from typing import Any
+from app.schemas import TopArtist
+from app.schemas import TopAlbum
+from app.schemas import TopSong
+from sqlalchemy import desc, func, select
 from sqlalchemy.orm import Session
-from app.db.models import User, MediaFile, Annotation
+
+from app.db.models import Annotation, MediaFile, User
+from app.schemas import UserOut
+
 
 def get_all_users(db: Session) -> list[UserOut]:
-    query = select(
-        User.id, User.user_name, func.coalesce(func.sum(Annotation.play_count), 0).label("total_plays")
-    ).join(Annotation, Annotation.user_id == User.id).where(Annotation.item_type == "media_file", Annotation.play_count > 0).group_by(User.id).order_by(desc("total_plays"))
-    
+    query = (
+        select(
+            User.id,
+            User.user_name,
+            func.coalesce(func.sum(Annotation.play_count), 0).label("total_plays"),
+        )
+        .join(Annotation, Annotation.user_id == User.id)
+        .where(Annotation.item_type == "media_file", Annotation.play_count > 0)
+        .group_by(User.id)
+        .order_by(desc("total_plays"))
+    )
+
     results = db.execute(query).all()
-    users = [UserOut(id=r._tuple()[0], user_name=r._tuple()[1], total_plays=r._tuple()[2], ) for r in results]
+    users = [
+        UserOut(
+            id=r._tuple()[0],
+            user_name=r._tuple()[1],
+            total_plays=r._tuple()[2],
+        )
+        for r in results
+    ]
     return users
 
 
-# def get_user_by_name(db: Session, user_name):
-#     row = db.execute(
-#         "SELECT id, user_name FROM user WHERE user_name = ?", (user_name,)
-#     ).fetchone()
-#     return dict(row) if row else None
+def get_user_by_name(db: Session, user_name: str) -> User:
+    query = select(User).where(User.user_name == user_name)
+    result = db.scalar(query)
+    return result
 
 
-# def get_top_songs(db, user_id, limit=10):
-#     rows = db.execute("""
-#         SELECT mf.title, mf.artist, COALESCE(a.play_count, 0) AS play_count
-#         FROM annotation a
-#         JOIN media_file mf ON mf.id = a.item_id
-#         WHERE a.item_type = 'media_file'
-#           AND a.user_id = ?
-#           AND a.play_count > 0
-#         ORDER BY a.play_count DESC
-#         LIMIT ?
-#     """, (user_id, limit)).fetchall()
-#     return [dict(r) for r in rows]
+def get_top_songs(db: Session, user_id: str, limit: int = 10) -> list[TopSong]:
+    query = (
+        select(
+            MediaFile.title,
+            MediaFile.artist,
+            func.coalesce(Annotation.play_count, 0).label("play_count"),
+        )
+        .join(MediaFile, MediaFile.id == Annotation.item_id)
+        .where(
+            Annotation.item_type == "media_file",
+            Annotation.user_id == user_id,
+            Annotation.play_count > 0,
+        )
+        .order_by(desc(Annotation.play_count))
+        .limit(limit)
+    )
+
+    results = db.execute(query).all()
+    return [
+        TopSong(title=r._tuple()[0], artist=r._tuple()[1], play_count=r._tuple()[2])
+        for r in results
+    ]
 
 
-# def get_top_albums(db, user_id, limit=10):
-#     rows = db.execute("""
-#         SELECT mf.album AS name, mf.artist,
-#                SUM(COALESCE(a.play_count, 0)) AS play_count
-#         FROM annotation a
-#         JOIN media_file mf ON mf.id = a.item_id
-#         WHERE a.item_type = 'media_file'
-#           AND a.user_id = ?
-#           AND a.play_count > 0
-#         GROUP BY mf.album_id
-#         ORDER BY play_count DESC
-#         LIMIT ?
-#     """, (user_id, limit)).fetchall()
-#     return [dict(r) for r in rows]
+def get_top_albums(db: Session, user_id: str, limit: int = 10) -> list[TopAlbum]:
+    query = (
+        select(
+            MediaFile.album.label("name"),
+            MediaFile.artist,
+            func.sum(func.coalesce(Annotation.play_count, 0)).label("play_count"),
+        )
+        .join(MediaFile, MediaFile.id == Annotation.item_id)
+        .where(
+            Annotation.item_type == "media_file",
+            Annotation.user_id == user_id,
+            Annotation.play_count > 0,
+        )
+        .group_by(MediaFile.album_id)
+        .order_by(desc("play_count"))
+        .limit(limit)
+    )
+
+    results = db.execute(query).all()
+    return [
+        TopAlbum(name=r._tuple()[0], artist= r._tuple()[1], play_count= r._tuple()[2])
+        for r in results
+    ]
 
 
-# def get_top_artists(db, user_id, limit=10):
-#     rows = db.execute("""
-#         SELECT ar.name, SUM(COALESCE(a.play_count, 0)) AS play_count
-#         FROM annotation a
-#         JOIN media_file mf ON mf.id = a.item_id
-#         JOIN artist ar ON ar.id = mf.artist_id
-#         WHERE a.item_type = 'media_file'
-#           AND a.user_id = ?
-#           AND a.play_count > 0
-#         GROUP BY ar.id
-#         ORDER BY play_count DESC
-#         LIMIT ?
-#     """, (user_id, limit)).fetchall()
-#     return [dict(r) for r in rows]
+def get_top_artists(db: Session, user_id: str, limit: int = 10) -> list[TopArtist]:
+    # NOTE: The original SQL joined with an 'artist' table which is not present in models.py.
+    # We adapt the query to use MediaFile fields, grouping by artist_id.
+    query = (
+        select(
+            MediaFile.artist.label("name"),
+            func.sum(func.coalesce(Annotation.play_count, 0)).label("play_count"),
+        )
+        .join(MediaFile, MediaFile.id == Annotation.item_id)
+        .where(
+            Annotation.item_type == "media_file",
+            Annotation.user_id == user_id,
+            Annotation.play_count > 0,
+        )
+        .group_by(MediaFile.artist_id)
+        .order_by(desc("play_count"))
+        .limit(limit)
+    )
+
+    results = db.execute(query).all()
+    return [
+        TopArtist(name= r._tuple()[0], play_count= r._tuple()[1])
+        for r in results
+    ]
 
 
-# def get_global_top_songs(db, limit=10):
-#     rows = db.execute("""
-#         SELECT mf.title, mf.artist,
-#                SUM(COALESCE(a.play_count, 0)) AS play_count
-#         FROM annotation a
-#         JOIN media_file mf ON mf.id = a.item_id
-#         WHERE a.item_type = 'media_file'
-#           AND a.play_count > 0
-#         GROUP BY mf.id
-#         ORDER BY play_count DESC
-#         LIMIT ?
-#     """, (limit,)).fetchall()
-#     return [dict(r) for r in rows]
+def get_global_top_songs(db: Session, limit: int = 10) -> list[TopSong]:
+    query = (
+        select(
+            MediaFile.title,
+            MediaFile.artist,
+            func.sum(func.coalesce(Annotation.play_count, 0)).label("play_count"),
+        )
+        .join(MediaFile, MediaFile.id == Annotation.item_id)
+        .where(
+            Annotation.item_type == "media_file",
+            Annotation.play_count > 0,
+        )
+        .group_by(MediaFile.id)
+        .order_by(desc("play_count"))
+        .limit(limit)
+    )
+
+    results = db.execute(query).all()
+    return [
+        TopSong(title= r._tuple()[0], artist= r._tuple()[1], play_count= r._tuple()[2])
+        for r in results
+    ]
 
 
-# def get_cross_user_matrix(db, limit=20):
-#     users = db.execute(
-#         "SELECT id, user_name FROM user ORDER BY user_name"
-#     ).fetchall()
-#     users = [dict(u) for u in users]
+def get_cross_user_matrix(db: Session, limit: int = 20) -> dict[str, Any]:
+    # 1. Get Users
+    users_query = select(User.id, User.user_name).order_by(User.user_name)
+    users = [
+        {"id": r._tuple()[0], "user_name": r._tuple()[1]}
+        for r in db.execute(users_query).all()
+    ]
 
-#     top_songs = db.execute("""
-#         SELECT mf.id, mf.title, mf.artist,
-#                SUM(COALESCE(a.play_count, 0)) AS total
-#         FROM annotation a
-#         JOIN media_file mf ON mf.id = a.item_id
-#         WHERE a.item_type = 'media_file'
-#           AND a.play_count > 0
-#         GROUP BY mf.id
-#         ORDER BY total DESC
-#         LIMIT ?
-#     """, (limit,)).fetchall()
-#     top_songs = [dict(s) for s in top_songs]
+    # 2. Get Top Songs
+    songs_query = (
+        select(
+            MediaFile.id,
+            MediaFile.title,
+            MediaFile.artist,
+            func.sum(func.coalesce(Annotation.play_count, 0)).label("total"),
+        )
+        .join(MediaFile, MediaFile.id == Annotation.item_id)
+        .where(
+            Annotation.item_type == "media_file",
+            Annotation.play_count > 0,
+        )
+        .group_by(MediaFile.id)
+        .order_by(desc("total"))
+        .limit(limit)
+    )
+    top_songs = [
+        {"id": r._tuple()[0], "title": r._tuple()[1], "artist": r._tuple()[2]}
+        for r in db.execute(songs_query).all()
+    ]
 
-#     if not top_songs:
-#         return {"songs": [], "users": [], "matrix": []}
+    if not top_songs:
+        return {"songs": [], "users": [], "matrix": []}
 
-#     song_ids = [s["id"] for s in top_songs]
-#     placeholders = ",".join("?" * len(song_ids))
+    song_ids = [s["id"] for s in top_songs]
 
-#     plays = db.execute(f"""
-#         SELECT item_id, user_id, play_count
-#         FROM annotation
-#         WHERE item_type = 'media_file'
-#           AND item_id IN ({placeholders})
-#     """, song_ids).fetchall()
+    # 3. Get Plays for matrix
+    plays_query = select(
+        Annotation.item_id, Annotation.user_id, Annotation.play_count
+    ).where(
+        Annotation.item_type == "media_file",
+        Annotation.item_id.in_(song_ids),
+    )
+    plays_results = db.execute(plays_query).all()
 
-#     lookup = {}
-#     for p in plays:
-#         lookup[(p["item_id"], p["user_id"])] = p["play_count"] or 0
+    lookup = {}
+    for p in plays_results:
+        lookup[(p._tuple()[0], p._tuple()[1])] = p._tuple()[2] or 0
 
-#     matrix = []
-#     for user in users:
-#         row = [lookup.get((sid, user["id"]), 0) for sid in song_ids]
-#         matrix.append(row)
+    matrix = []
+    for user in users:
+        row = [lookup.get((sid, user["id"]), 0) for sid in song_ids]
+        matrix.append(row)
 
-#     return {
-#         "songs": [f"{s['title']} — {s['artist']}" for s in top_songs],
-#         "users": [u["user_name"] for u in users],
-#         "matrix": matrix,
-#     }
+    return {
+        "songs": [f'{s["title"]} — {s["artist"]}' for s in top_songs],
+        "users": [u["user_name"] for u in users],
+        "matrix": matrix,
+    }

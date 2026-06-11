@@ -1,5 +1,5 @@
-import sqlite3
 import random
+import sqlite3
 
 
 def build_sample_db():
@@ -95,8 +95,10 @@ def _seed(conn):
     conn.executemany("INSERT INTO user VALUES (?,?)", users)
     conn.executemany("INSERT INTO artist VALUES (?,?)", artists)
     conn.executemany("INSERT INTO album VALUES (?,?,?,?,?)", albums)
-    conn.executemany("INSERT INTO media_file VALUES (?,?,?,?,?,?,?)",
-                     [(t[0], t[1], t[2], t[3], t[4], t[5], 240) for t in tracks])
+    conn.executemany(
+        "INSERT INTO media_file VALUES (?,?,?,?,?,?,?)",
+        [(t[0], t[1], t[2], t[3], t[4], t[5], 240) for t in tracks],
+    )
 
     random.seed(42)
     annotations = []
