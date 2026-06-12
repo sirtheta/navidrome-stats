@@ -1,59 +1,73 @@
-{% extends "base.html" %}
-{% block title %}Übersicht — Navidrome Stats{% endblock %}
-
-{% block content %}
-<h1 class="mb-4">Übersicht</h1>
+{% extends "base.html" %} {% block title %}{{_("Overview")}} — Navidrome Stats{%
+endblock %} {% block content %}
+<h1 class="mb-4">{{_("Overview")}}</h1>
 
 <div class="row g-3 mb-5">
-  {% for user in users %}
-  <div class="col-sm-6 col-md-4 col-lg-3">
-    <a href="/user/{{ user.user_name }}" class="text-decoration-none">
-      <div class="card h-100 user-card">
-        <div class="card-body text-center">
-          <div class="user-avatar">{{ user.user_name[0].upper() }}</div>
-          <h5 class="card-title mt-2">{{ user.user_name }}</h5>
-          <p class="card-text text-muted">{{ "{:,}".format(user.total_plays) }} Plays</p>
-        </div>
-      </div>
-    </a>
-  </div>
-  {% endfor %}
+    {% for user in users %}
+    <div class="col-sm-6 col-md-4 col-lg-3">
+        <a href="/user/{{ user.user_name }}" class="text-decoration-none">
+            <div class="card h-100 user-card">
+                <div class="card-body text-center">
+                    <div class="user-avatar">
+                        {{ user.user_name[0].upper() }}
+                    </div>
+                    <h5 class="card-title mt-2">{{ user.user_name }}</h5>
+                    <p class="card-text text-muted">
+                        {{ "{:,}".format(user.total_plays) }} {{_("Plays")}}
+                    </p>
+                </div>
+            </div>
+        </a>
+    </div>
+    {% endfor %}
 </div>
 
 <div class="row mb-5">
-  <div class="col-lg-8">
-    <h2 class="mb-3">Plays pro User</h2>
-    <canvas id="usersChart" height="120"></canvas>
-  </div>
+    <div class="col-lg-8">
+        <h2 class="mb-3">{{_("Plays per User")}}</h2>
+        <canvas id="usersChart" height="120"></canvas>
+    </div>
 </div>
 
-<h2 class="mb-3">Globale Top 10 Songs</h2>
+<h2 class="mb-3">{{_("Global Top 10 Songs")}}</h2>
 <div class="table-responsive">
-  <table class="table table-hover">
-    <thead><tr><th>#</th><th>Titel</th><th>Künstler</th><th>Plays (gesamt)</th></tr></thead>
-    <tbody>
-      {% for s in top_songs %}
-      <tr>
-        <td class="text-muted">{{ loop.index }}</td>
-        <td>{{ s.title }}</td>
-        <td>{{ s.artist }}</td>
-        <td><strong>{{ s.play_count }}</strong></td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>{{_("Title")}}</th>
+                <th>{{_("Artist")}}</th>
+                <th>{{_("Total Plays")}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for s in top_songs %}
+            <tr>
+                <td class="text-muted">{{ loop.index }}</td>
+                <td>{{ s.title }}</td>
+                <td>{{ s.artist }}</td>
+                <td><strong>{{ s.play_count }}</strong></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>
-{% endblock %}
-
-{% block scripts %}
+{% endblock %} {% block scripts %}
 <script type="module">
-import { renderHBar } from "{{ url_for('static',path='js/charts.js') }}";
-fetch('/api/users')
-  .then(r => r.json())
-  .then(data => renderHBar(
-    'usersChart',
-    data.map(u => u.user_name),
-    [{ label: 'Gesamt-Plays', data: data.map(u => u.total_plays) }]
-  ));
+    import { renderHBar } from "{{ url_for('static',path='js/charts.js') }}";
+    fetch("/api/users")
+        .then((r) => r.json())
+        .then((data) =>
+            renderHBar(
+                "usersChart",
+                data.map((u) => u.user_name),
+                [
+                    {
+                        label: "Gesamt-Plays",
+                        data: data.map((u) => u.total_plays),
+                    },
+                ],
+            ),
+        );
 </script>
 {% endblock %}

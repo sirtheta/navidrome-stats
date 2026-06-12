@@ -1,0 +1,123 @@
+# German translations for Navidrome Stats.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Navidrome Stats\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2026-06-12 14:08+0330\n"
+"PO-Revision-Date: 2026-06-11 20:08+0330\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: de\n"
+"Language-Team: \n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: templates/base.html:41 templates/index.html:1 templates/index.html:3
+#: templates/user.html:5
+msgid "Overview"
+msgstr "Übersicht"
+
+#: templates/base.html:45 templates/compare.html:1
+msgid "Comparison"
+msgstr "Vergleich"
+
+#: templates/base.html:56
+msgid "Language"
+msgstr "Sprache"
+
+#: templates/base.html:63
+msgid "EN"
+msgstr "English"
+
+#: templates/base.html:70
+msgid "DE"
+msgstr "Deutsch"
+
+#: templates/base.html:85
+msgid "Sample data active"
+msgstr "Sample-Daten aktiv"
+
+#: templates/base.html:86
+msgid "No Navidrome volume mounted"
+msgstr "Kein Navidrome-Volume gemountet"
+
+#: templates/base.html:87
+msgid "not found"
+msgstr "nicht gefunden"
+
+#: templates/compare.html:3
+msgid "User Comparison"
+msgstr "User-Vergleich"
+
+#: templates/compare.html:5
+msgid "Global Top 20 Songs — Plays per User Comparison."
+msgstr "Top 20 Songs global — Plays pro User im Vergleich."
+
+#: templates/compare.html:13
+msgid "Loading data"
+msgstr "Lade Daten"
+
+#: templates/compare.html:24
+msgid "No data available"
+msgstr "Keine Daten vorhanden."
+
+#: templates/compare.html:47 templates/index.html:16 templates/user.html:27
+#: templates/user.html:60 templates/user.html:127 templates/user.html:130
+#: templates/user.html:133
+msgid "Plays"
+msgstr "Plays"
+
+#: templates/compare.html:60
+msgid "Song"
+msgstr "Song"
+
+#: templates/index.html:27
+msgid "Plays per User"
+msgstr "Plays pro User"
+
+#: templates/index.html:32
+msgid "Global Top 10 Songs"
+msgstr "Globale Top 10 Songs"
+
+#: templates/index.html:38 templates/user.html:25
+msgid "Title"
+msgstr "Titel"
+
+#: templates/index.html:39 templates/user.html:26 templates/user.html:59
+#: templates/user.html:92
+msgid "Artist"
+msgstr "Künstler"
+
+#: templates/index.html:40
+msgid "Total Plays"
+msgstr "Plays (gesamt)"
+
+#: templates/user.html:18
+msgid "Top Songs"
+msgstr "Top Songs"
+
+#: templates/user.html:41 templates/user.html:73 templates/user.html:107
+msgid "No plays available."
+msgstr "Keine Plays vorhanden."
+
+#: templates/user.html:52
+msgid "Top Artists"
+msgstr "Top Künstler"
+
+#: templates/user.html:84
+msgid "Top Albums"
+msgstr "Top Alben"
+
+#: templates/user.html:91
+msgid "Album"
+msgstr "Album"
+
+#: templates/user.html:93
+msgid "Plays (Tracks)"
+msgstr "Plays (Tracks)"
+
+#~ msgid "Navidrome Stats"
+#~ msgstr ""

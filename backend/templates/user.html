@@ -1,107 +1,136 @@
-{% extends "base.html" %}
-{% block title %}{{ user.user_name }} — Navidrome Stats{% endblock %}
-
-{% block content %}
+{% extends "base.html" %} {% block title %}{{ user.user_name }} — Navidrome
+Stats{% endblock %} {% block content %}
 <nav aria-label="breadcrumb" class="mb-3">
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="/">Übersicht</a></li>
-    <li class="breadcrumb-item active">{{ user.user_name }}</li>
-  </ol>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">{{_("Overview")}}</a></li>
+        <li class="breadcrumb-item active">{{ user.user_name }}</li>
+    </ol>
 </nav>
 
 <h1 class="mb-4">
-  <span class="user-avatar-sm">{{ user.user_name[0].upper() }}</span>
-  {{ user.user_name }}
+    <span class="user-avatar-sm">{{ user.user_name[0].upper() }}</span>
+    {{ user.user_name }}
 </h1>
 
 <div class="row g-4">
-
-  <!-- Top Songs -->
-  <div class="col-lg-6">
-    <h2>Top Songs</h2>
-    <canvas id="songsChart" class="mb-3" height="220"></canvas>
-    <div class="table-responsive">
-      <table class="table table-sm table-hover">
-        <thead><tr><th>#</th><th>Titel</th><th>Künstler</th><th>Plays</th></tr></thead>
-        <tbody>
-          {% for s in songs %}
-          <tr>
-            <td class="text-muted">{{ loop.index }}</td>
-            <td>{{ s.title }}</td>
-            <td class="text-muted">{{ s.artist }}</td>
-            <td><strong>{{ s.play_count }}</strong></td>
-          </tr>
-          {% endfor %}
-          {% if not songs %}<tr><td colspan="4" class="text-muted">Keine Plays vorhanden.</td></tr>{% endif %}
-        </tbody>
-      </table>
+    <!-- Top Songs -->
+    <div class="col-lg-6">
+        <h2>{{_("Top Songs")}}</h2>
+        <canvas id="songsChart" class="mb-3" height="220"></canvas>
+        <div class="table-responsive">
+            <table class="table table-sm table-hover">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>{{_("Title")}}</th>
+                        <th>{{_("Artist")}}</th>
+                        <th>{{_("Plays")}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for s in songs %}
+                    <tr>
+                        <td class="text-muted">{{ loop.index }}</td>
+                        <td>{{ s.title }}</td>
+                        <td class="text-muted">{{ s.artist }}</td>
+                        <td><strong>{{ s.play_count }}</strong></td>
+                    </tr>
+                    {% endfor %} {% if not songs %}
+                    <tr>
+                        <td colspan="4" class="text-muted">
+                            {{_("No plays available.")}}
+                        </td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
     </div>
-  </div>
 
-  <!-- Top Artists -->
-  <div class="col-lg-6">
-    <h2>Top Künstler</h2>
-    <canvas id="artistsChart" class="mb-3" height="220"></canvas>
-    <div class="table-responsive">
-      <table class="table table-sm table-hover">
-        <thead><tr><th>#</th><th>Künstler</th><th>Plays</th></tr></thead>
-        <tbody>
-          {% for a in artists %}
-          <tr>
-            <td class="text-muted">{{ loop.index }}</td>
-            <td>{{ a.name }}</td>
-            <td><strong>{{ a.play_count }}</strong></td>
-          </tr>
-          {% endfor %}
-          {% if not artists %}<tr><td colspan="3" class="text-muted">Keine Plays vorhanden.</td></tr>{% endif %}
-        </tbody>
-      </table>
+    <!-- Top Artists -->
+    <div class="col-lg-6">
+        <h2>{{_("Top Artists")}}</h2>
+        <canvas id="artistsChart" class="mb-3" height="220"></canvas>
+        <div class="table-responsive">
+            <table class="table table-sm table-hover">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>{{_("Artist")}}</th>
+                        <th>{{_("Plays")}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for a in artists %}
+                    <tr>
+                        <td class="text-muted">{{ loop.index }}</td>
+                        <td>{{ a.name }}</td>
+                        <td><strong>{{ a.play_count }}</strong></td>
+                    </tr>
+                    {% endfor %} {% if not artists %}
+                    <tr>
+                        <td colspan="3" class="text-muted">
+                            {{_("No plays available.")}}
+                        </td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
     </div>
-  </div>
 
-  <!-- Top Albums -->
-  <div class="col-12">
-    <h2>Top Alben</h2>
-    <canvas id="albumsChart" class="mb-3" height="100"></canvas>
-    <div class="table-responsive">
-      <table class="table table-sm table-hover">
-        <thead><tr><th>#</th><th>Album</th><th>Künstler</th><th>Plays (Tracks)</th></tr></thead>
-        <tbody>
-          {% for al in albums %}
-          <tr>
-            <td class="text-muted">{{ loop.index }}</td>
-            <td>{{ al.name }}</td>
-            <td class="text-muted">{{ al.artist }}</td>
-            <td><strong>{{ al.play_count }}</strong></td>
-          </tr>
-          {% endfor %}
-          {% if not albums %}<tr><td colspan="4" class="text-muted">Keine Plays vorhanden.</td></tr>{% endif %}
-        </tbody>
-      </table>
+    <!-- Top Albums -->
+    <div class="col-12">
+        <h2>{{_("Top Albums")}}</h2>
+        <canvas id="albumsChart" class="mb-3" height="100"></canvas>
+        <div class="table-responsive">
+            <table class="table table-sm table-hover">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>{{_("Album")}}</th>
+                        <th>{{_("Artist")}}</th>
+                        <th>{{_("Plays (Tracks)")}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for al in albums %}
+                    <tr>
+                        <td class="text-muted">{{ loop.index }}</td>
+                        <td>{{ al.name }}</td>
+                        <td class="text-muted">{{ al.artist }}</td>
+                        <td><strong>{{ al.play_count }}</strong></td>
+                    </tr>
+                    {% endfor %} {% if not albums %}
+                    <tr>
+                        <td colspan="4" class="text-muted">
+                            {{_("No plays available.")}}
+                        </td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
     </div>
-  </div>
-
 </div>
-{% endblock %}
-
-{% block scripts %}
+{% endblock %} {% block scripts %}
 <script type="module">
-import { renderHBar } from "{{ url_for('static',path='js/charts.js') }}";
-const u = {{ user.user_name | tojson }};
-Promise.all([
-  fetch(`/api/user/${u}/top-songs`).then(r => r.json()),
-  fetch(`/api/user/${u}/top-artists`).then(r => r.json()),
-  fetch(`/api/user/${u}/top-albums`).then(r => r.json()),
-]).then(([songs, artists, albums]) => {
-  renderHBar('songsChart',
-    songs.map(s => `${s.title}`),
-    [{ label: 'Plays', data: songs.map(s => s.play_count) }]);
-  renderHBar('artistsChart',
-    artists.map(a => a.name),
-    [{ label: 'Plays', data: artists.map(a => a.play_count) }]);
-  renderHBar('albumsChart',
-    albums.map(a => a.name),
-    [{ label: 'Plays', data: albums.map(a => a.play_count) }]);
-});
+    import { renderHBar } from "{{ url_for('static',path='js/charts.js') }}";
+    const u = {{ user.user_name | tojson }};
+    Promise.all([
+      fetch(`/api/user/${u}/top-songs`).then(r => r.json()),
+      fetch(`/api/user/${u}/top-artists`).then(r => r.json()),
+      fetch(`/api/user/${u}/top-albums`).then(r => r.json()),
+    ]).then(([songs, artists, albums]) => {
+      renderHBar('songsChart',
+        songs.map(s => `${s.title}`),
+        [{ label: '{{_("Plays")}}', data: songs.map(s => s.play_count) }]);
+      renderHBar('artistsChart',
+        artists.map(a => a.name),
+        [{ label: '{{_("Plays")}}', data: artists.map(a => a.play_count) }]);
+      renderHBar('albumsChart',
+        albums.map(a => a.name),
+        [{ label: '{{_("Plays")}}', data: albums.map(a => a.play_count) }]);
+    });
 </script>
 {% endblock %}
