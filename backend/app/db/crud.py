@@ -32,7 +32,7 @@ def get_all_users(db: Session) -> list[UserOut]:
     return users
 
 
-def get_user_by_name(db: Session, user_name: str) -> User:
+def get_user_by_name(db: Session, user_name: str) -> User | None:
     query = select(User).where(User.user_name == user_name)
     result = db.scalar(query)
     return result
@@ -88,8 +88,6 @@ def get_top_albums(db: Session, user_id: str, limit: int = 10) -> list[TopAlbum]
 
 
 def get_top_artists(db: Session, user_id: str, limit: int = 10) -> list[TopArtist]:
-    # NOTE: The original SQL joined with an 'artist' table which is not present in models.py.
-    # We adapt the query to use MediaFile fields, grouping by artist_id.
     query = (
         select(
             MediaFile.artist.label("name"),

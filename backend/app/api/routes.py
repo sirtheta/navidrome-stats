@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Depends
 from fastapi.responses import JSONResponse
+from fastapi_babel import _
 from sqlalchemy.orm import Session
 
 from app.db import crud
@@ -19,7 +20,7 @@ def api_users(db: Session = Depends(get_db)):
 def api_top_songs(user_name: str, db: Session = Depends(get_db)):
     user = crud.get_user_by_name(db=db, user_name=user_name)
     if user is None:
-        return JSONResponse(content={"message": "user not found"}, status_code=404)
+        return JSONResponse(content={"message": _("user not found")}, status_code=404)
 
     return crud.get_top_songs(db=db, user_id=user.id)
 
@@ -28,7 +29,7 @@ def api_top_songs(user_name: str, db: Session = Depends(get_db)):
 def api_top_albums(user_name: str, db: Session = Depends(get_db)):
     user = crud.get_user_by_name(db=db, user_name=user_name)
     if user is None:
-        return JSONResponse(content={"message": "user not found"}, status_code=404)
+        return JSONResponse(content={"message": _("user not found")}, status_code=404)
     return crud.get_top_albums(db=db, user_id=user.id)
 
 
@@ -36,7 +37,7 @@ def api_top_albums(user_name: str, db: Session = Depends(get_db)):
 def api_top_artists(user_name: str, db: Session = Depends(get_db)):
     user = crud.get_user_by_name(db=db, user_name=user_name)
     if user is None:
-        return JSONResponse(content={"message": "user not found"}, status_code=404)
+        return JSONResponse(content={"message": _("user not found")}, status_code=404)
     return crud.get_top_artists(db=db, user_id=user.id)
 
 
