@@ -1,52 +1,23 @@
 import random
-import sqlite3
+
+from sqlalchemy.orm import Session
+from sqlalchemy.sql import insert
+
+from app.db.database import Base, SessionFactory, engine
+from app.db.models import Album, Annotation, Artist, MediaFile, User
 
 
-def build_sample_db():
-    conn = sqlite3.connect(":memory:")
-    conn.row_factory = sqlite3.Row
-    _create_schema(conn)
-    _seed(conn)
-    return conn
+def init_sample_db() -> None:
+    # create all tables
+    Base.metadata.create_all(bind=engine)
+
+    with SessionFactory() as db:
+        init_sample_data(db=db)
 
 
-def _create_schema(conn):
-    conn.executescript("""
-        CREATE TABLE user (
-            id TEXT PRIMARY KEY,
-            user_name TEXT NOT NULL
-        );
-        CREATE TABLE artist (
-            id TEXT PRIMARY KEY,
-            name TEXT NOT NULL
-        );
-        CREATE TABLE album (
-            id TEXT PRIMARY KEY,
-            name TEXT NOT NULL,
-            artist TEXT NOT NULL,
-            artist_id TEXT NOT NULL,
-            song_count INTEGER DEFAULT 0
-        );
-        CREATE TABLE media_file (
-            id TEXT PRIMARY KEY,
-            title TEXT NOT NULL,
-            artist TEXT NOT NULL,
-            artist_id TEXT NOT NULL,
-            album TEXT NOT NULL,
-            album_id TEXT NOT NULL,
-            duration INTEGER DEFAULT 0
-        );
-        CREATE TABLE annotation (
-            item_type TEXT NOT NULL,
-            item_id TEXT NOT NULL,
-            user_id TEXT NOT NULL,
-            play_count INTEGER,
-            PRIMARY KEY (item_type, item_id, user_id)
-        );
-    """)
+def init_sample_data(db: Session) -> None:
+    # insert sample data
 
-
-def _seed(conn):
     users = [
         ("u1", "alice"),
         ("u2", "bob"),
@@ -92,13 +63,15 @@ def _seed(conn):
         ("t20", "Let Down", "Radiohead", "ar1", "OK Computer", "al1"),
     ]
 
-    conn.executemany("INSERT INTO user VALUES (?,?)", users)
-    conn.executemany("INSERT INTO artist VALUES (?,?)", artists)
-    conn.executemany("INSERT INTO album VALUES (?,?,?,?,?)", albums)
-    conn.executemany(
-        "INSERT INTO media_file VALUES (?,?,?,?,?,?,?)",
-        [(t[0], t[1], t[2], t[3], t[4], t[5], 240) for t in tracks],
-    )
+    db.execute(insert(User).values(users))
+    db.execute(insert(Artist).values(artists))
+    db.execute(insert(Album).values(albums))
+    db.execute(insert(MediaFile).values(tracks))
+
+    # conn.executemany(
+    #     "INSERT INTO media_file VALUES (?,?,?,?,?,?,?)",
+    #     [(t[0], t[1], t[2], t[3], t[4], t[5], 240) for t in tracks],
+    # )
 
     random.seed(42)
     annotations = []
@@ -106,7 +79,10 @@ def _seed(conn):
         for track in tracks:
             count = random.randint(0, 30)
             if count > 0:
-                annotations.append(("media_file", track[0], user_id, count))
+                annotations.append((user_id, track[0], "media_file", count))
 
-    conn.executemany("INSERT INTO annotation VALUES (?,?,?,?)", annotations)
-    conn.commit()
+    db.execute(insert(Annotation).values(annotations))
+
+    # print(db.execute(select()).all())
+
+    db.commit()

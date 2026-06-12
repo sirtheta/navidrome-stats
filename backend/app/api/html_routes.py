@@ -4,12 +4,15 @@ from fastapi.templating import Jinja2Templates
 from fastapi_babel import _
 from sqlalchemy.orm import Session
 
+from app.config import DB_PATH, USE_SAMPLE_DATA
 from app.db import crud
 from app.db.database import get_db
 
 router = APIRouter()
 templates = Jinja2Templates(directory="templates")
 templates.env.globals.update(_=_)
+templates.env.globals["use_sample_data"] = USE_SAMPLE_DATA
+templates.env.globals["db_path"] = DB_PATH
 
 
 @router.get("/", response_class=HTMLResponse)

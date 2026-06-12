@@ -7,8 +7,9 @@ from sqlalchemy.orm import (
     Session,
     sessionmaker,
 )
+from sqlalchemy.pool import StaticPool
 
-from app.config import DB_PATH
+from app.config import DB_PATH, USE_SAMPLE_DATA
 
 
 class Base(DeclarativeBase, MappedAsDataclass):
@@ -16,9 +17,16 @@ class Base(DeclarativeBase, MappedAsDataclass):
 
 
 # create engine
-SQLALCHEMY_DATABASE_URL = f"sqlite:///{DB_PATH}"
-# create engine
-engine = create_engine(SQLALCHEMY_DATABASE_URL)
+if USE_SAMPLE_DATA:
+    # create an in-memory database
+    engine = create_engine(
+        "sqlite://",
+        connect_args={"check_same_thread": False},
+        poolclass=StaticPool,
+    )
+else:
+    SQLALCHEMY_DATABASE_URL = f"sqlite:///{DB_PATH}"
+    engine = create_engine(SQLALCHEMY_DATABASE_URL)
 # create session
 SessionFactory = sessionmaker(bind=engine, autoflush=False, autocommit=False)
 

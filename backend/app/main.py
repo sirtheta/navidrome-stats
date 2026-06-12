@@ -1,17 +1,33 @@
-from fastapi import FastAPI
+from collections.abc import AsyncIterator
+from contextlib import asynccontextmanager
+
+from fastapi import Depends, FastAPI
 from fastapi.requests import Request
 from fastapi.staticfiles import StaticFiles
 from fastapi_babel import Babel, BabelConfigs, BabelMiddleware
+from sqlalchemy.orm import Session
 
 from app.api import html_routes, i18n, routes
+from app.config import USE_SAMPLE_DATA
+from app.db.sample_data import init_sample_db
 
-app = FastAPI()
+
+# lifespan
+@asynccontextmanager
+async def lifespan(_: FastAPI) -> AsyncIterator[None]:
+    # insert sample data
+    if USE_SAMPLE_DATA:
+        print("DB_PATH not exists, initializing sample data ...")
+        init_sample_db()
+    yield
+
+
+app = FastAPI(lifespan=lifespan)
 
 # static files
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 # middlewares
-
 babel_configs = BabelConfigs(
     ROOT_DIR=__file__,
     BABEL_DEFAULT_LOCALE="",
