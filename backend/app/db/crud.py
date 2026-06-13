@@ -3,7 +3,7 @@ from typing import Any
 from sqlalchemy import desc, func, select
 from sqlalchemy.orm import Session
 
-from app.db.models import Annotation, MediaFile, User
+from app.db.models import Annotation, Artist, MediaFile, User
 from app.schemas import TopAlbum, TopArtist, TopSong, UserOut
 
 
@@ -130,6 +130,27 @@ def get_global_top_songs(db: Session, limit: int = 10) -> list[TopSong]:
         TopSong(title=r._tuple()[0], artist=r._tuple()[1], play_count=r._tuple()[2])
         for r in results
     ]
+
+
+def get_global_top_artists(db: Session, limit: int = 10) -> list[TopArtist]:
+    query = (
+        select(
+            Artist.name,
+            func.sum(func.coalesce(Annotation.play_count, 0)).label("play_count"),
+        )
+        .join(MediaFile, MediaFile.id == Annotation.item_id)
+        .join(Artist, Artist.id == MediaFile.artist_id)
+        .where(
+            Annotation.item_type == "media_file",
+            Annotation.play_count > 0,
+        )
+        .group_by(MediaFile.artist)
+        .order_by(desc("play_count"))
+        .limit(limit)
+    )
+
+    results = db.execute(query).all()
+    return [TopArtist(name=r._tuple()[0], play_count=r._tuple()[1]) for r in results]
 
 
 def get_cross_user_matrix(db: Session, limit: int = 20) -> dict[str, Any]:

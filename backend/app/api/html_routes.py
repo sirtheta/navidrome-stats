@@ -19,10 +19,15 @@ templates.env.globals["db_path"] = DB_PATH
 def index(request: Request, db: Session = Depends(get_db)):
     users = crud.get_all_users(db=db)
     top_songs = crud.get_global_top_songs(db=db, limit=10)
+    top_artists = crud.get_global_top_artists(db=db, limit=10)
     return templates.TemplateResponse(
         request=request,
         name="index.html",
-        context={"users": users, "top_songs": top_songs},
+        context={
+            "users": users,
+            "top_songs": top_songs,
+            "top_artists": top_artists,
+        },
     )
 
 

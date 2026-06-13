@@ -47,7 +47,7 @@ app.add_middleware(
 )
 
 # router
-app.include_router(routes.router, prefix="/api", tags=["api"])
+app.include_router(routes.router, prefix="/api", tags=["API"])
 app.include_router(html_routes.router, tags=["html"])
 app.include_router(i18n.router, tags=["i18n"])
 

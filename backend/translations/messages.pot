@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-06-12 18:42+0330\n"
+"POT-Creation-Date: 2026-06-13 12:45+0330\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,8 +17,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.18.0\n"
 
-#: app/api/html_routes.py:31 app/api/routes.py:23 app/api/routes.py:32
-#: app/api/routes.py:40
+#: app/api/html_routes.py:39 app/api/routes.py:48 app/api/routes.py:57
+#: app/api/routes.py:65
 msgid "user not found"
 msgstr ""
 
@@ -85,21 +85,29 @@ msgstr ""
 msgid "Plays per User"
 msgstr ""
 
-#: templates/index.html:32
+#: templates/index.html:35
 msgid "Global Top 10 Songs"
 msgstr ""
 
-#: templates/index.html:38 templates/user.html:25
+#: templates/index.html:41 templates/user.html:25
 msgid "Title"
 msgstr ""
 
-#: templates/index.html:39 templates/user.html:26 templates/user.html:59
+#: templates/index.html:42 templates/user.html:26 templates/user.html:59
 #: templates/user.html:92
 msgid "Artist"
 msgstr ""
 
-#: templates/index.html:40
+#: templates/index.html:43 templates/index.html:68
 msgid "Total Plays"
+msgstr ""
+
+#: templates/index.html:61
+msgid "Global Top 10 Artists"
+msgstr ""
+
+#: templates/index.html:67
+msgid "Name"
 msgstr ""
 
 #: templates/user.html:18
