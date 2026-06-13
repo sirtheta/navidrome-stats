@@ -144,7 +144,7 @@ def get_global_top_artists(db: Session, limit: int = 10) -> list[TopArtist]:
             Annotation.item_type == "media_file",
             Annotation.play_count > 0,
         )
-        .group_by(MediaFile.artist)
+        .group_by(Artist.id)
         .order_by(desc("play_count"))
         .limit(limit)
     )

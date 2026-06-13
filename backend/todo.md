@@ -1,0 +1,6 @@
+- [x] fix translation in API routes
+- [x] fix sample data loading
+- [ ] add tests for API routes
+- [x] add new endpoints -> UI
+   - [x] Global Top Artists
+- [ ] Update `README.md`

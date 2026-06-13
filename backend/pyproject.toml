@@ -17,9 +17,14 @@ dependencies = [
 [dependency-groups]
 dev = [
     "babel>=2.18.0",
+    "httpx2>=0.1.0",
     "pytest>=9.0.3",
     "ruff>=0.15.16",
 ]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
 
 
 [tool.ruff]

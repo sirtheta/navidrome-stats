@@ -1,11 +1,10 @@
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 
-from fastapi import Depends, FastAPI
+from fastapi import FastAPI
 from fastapi.requests import Request
 from fastapi.staticfiles import StaticFiles
 from fastapi_babel import Babel, BabelConfigs, BabelMiddleware
-from sqlalchemy.orm import Session
 
 from app.api import html_routes, i18n, routes
 from app.config import USE_SAMPLE_DATA
