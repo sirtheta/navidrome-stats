@@ -122,7 +122,7 @@ msgstr "Top Artists"
 
 #: templates/user.html:84
 msgid "Top Albums"
-msgstr "op Albums"
+msgstr "Top Albums"
 
 #: templates/user.html:91
 msgid "Album"
