@@ -8,7 +8,7 @@ from app.config import DB_PATH, USE_SAMPLE_DATA
 from app.db import crud
 from app.db.database import get_db
 
-router = APIRouter()
+router = APIRouter(include_in_schema=False)
 templates = Jinja2Templates(directory="templates")
 templates.env.globals.update(_=_)
 templates.env.globals["use_sample_data"] = USE_SAMPLE_DATA
