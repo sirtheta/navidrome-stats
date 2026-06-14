@@ -87,7 +87,7 @@ endblock %} {% block content %}
 {% endblock %} {% block scripts %}
 <script type="module">
     import { renderHBar } from "{{ url_for('static',path='js/charts.js') }}";
-    fetch("/api/users")
+    fetch("{{url_for('get_users')}}")
         .then((r) => r.json())
         .then((data) =>
             renderHBar(

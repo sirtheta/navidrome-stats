@@ -120,9 +120,9 @@ Stats{% endblock %} {% block content %}
     import { renderHBar } from "{{ url_for('static',path='js/charts.js') }}";
     const u = {{ user.user_name | tojson }};
     Promise.all([
-      fetch(`/api/user/${u}/top-songs`).then(r => r.json()),
-      fetch(`/api/user/${u}/top-artists`).then(r => r.json()),
-      fetch(`/api/user/${u}/top-albums`).then(r => r.json()),
+      fetch("{{url_for('get_user_top_songs', user_name=user.user_name)}}").then(r => r.json()),
+        fetch("{{url_for('get_user_top_artists', user_name=user.user_name)}}").then(r => r.json()),
+        fetch("{{url_for('get_user_top_albums', user_name=user.user_name)}}").then(r => r.json()),
     ]).then(([songs, artists, albums]) => {
       renderHBar('songsChart',
         songs.map(s => `${s.title}`),
