@@ -2,7 +2,9 @@
 Stats{% endblock %} {% block content %}
 <nav aria-label="breadcrumb" class="mb-3">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="/">{{_("Overview")}}</a></li>
+        <li class="breadcrumb-item">
+            <a href="{{ url_for('index') }}">{{_("Overview")}}</a>
+        </li>
         <li class="breadcrumb-item active">{{ user.user_name }}</li>
     </ol>
 </nav>

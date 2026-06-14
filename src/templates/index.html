@@ -5,7 +5,10 @@ endblock %} {% block content %}
 <div class="row g-3 mb-5">
     {% for user in users %}
     <div class="col-sm-6 col-md-4 col-lg-3">
-        <a href="/user/{{ user.user_name }}" class="text-decoration-none">
+        <a
+            href="{{ url_for('user_detail', user_name=user.user_name)}}"
+            class="text-decoration-none"
+        >
             <div class="card h-100 user-card">
                 <div class="card-body text-center">
                     <div class="user-avatar">

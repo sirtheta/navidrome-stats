@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="de">
+<html lang="en">
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -16,7 +16,9 @@
     <body>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container-fluid">
-                <a class="navbar-brand" href="/"> 🎵 Navidrome Stats </a>
+                <a class="navbar-brand" href="{{ url_for('index') }}">
+                    🎵 Navidrome Stats
+                </a>
 
                 <button
                     class="navbar-toggler"
@@ -38,10 +40,12 @@
                         <li class="nav-item">
                             <!--set "active" dynamically
                             aria-current="page"-->
-                            <a class="nav-link" href="/">{{_("Overview")}}</a>
+                            <a class="nav-link" href="{{ url_for('index') }}"
+                                >{{_("Overview")}}</a
+                            >
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/compare"
+                            <a class="nav-link" href="{{ url_for('compare') }}"
                                 >{{_("Comparison")}}</a
                             >
                         </li>
@@ -59,14 +63,14 @@
                                 <li>
                                     <a
                                         class="dropdown-item"
-                                        href="/set-locale/en"
+                                        href="{{ url_for('set_locale', lang='en')}}"
                                         >{{_("EN")}}</a
                                     >
                                 </li>
                                 <li>
                                     <a
                                         class="dropdown-item"
-                                        href="/set-locale/de"
+                                        href="{{ url_for('set_locale', lang='de')}}"
                                         >{{_("DE")}}</a
                                     >
                                 </li>
