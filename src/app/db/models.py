@@ -21,8 +21,12 @@ class User(Base):
     # is_admin: Mapped[bool] = mapped_column(Boolean, default=False)
     # last_login_at: Mapped[datetime | None] = mapped_column(DateTime, default=None)
     # last_access_at: Mapped[datetime | None] = mapped_column(DateTime, default=None)
-    # created_at: Mapped[datetime] = mapped_column(DateTime, default_factory=datetime.utcnow)
-    # updated_at: Mapped[datetime] = mapped_column(DateTime, default_factory=datetime.utcnow)
+    # created_at: Mapped[datetime] = mapped_column(
+    #     DateTime, default_factory=datetime.utcnow
+    # )
+    # updated_at: Mapped[datetime] = mapped_column(
+    #     DateTime, default_factory=datetime.utcnow
+    # )
 
 
 class Artist(Base):
