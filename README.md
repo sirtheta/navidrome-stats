@@ -27,7 +27,6 @@ A web dashboard for visualizing listening statistics from a [Navidrome](https://
    |---------------------|----------------------------|--------------------------------------------------|
    | `HOST_PORT`         | `8080`                     | Port on the host to expose the dashboard         |
    | `NAVIDROME_DB_PATH` | `/opt/navidrome/data`      | Path to the Navidrome data directory (read-only) |
-   | `FLASK_DEBUG`       | `false`                    | Enable Flask debug mode (development only)       |
 
 3. Start the container:
 
@@ -58,19 +57,22 @@ services:
 Run locally without Docker (requires Python 3.12+):
 
 ```bash
-cd backend
-pip install -r requirements.txt
-python app.py
+cd src
+uv sync
+uv run fastapi dev
 ```
 
 If `navidrome.db` is not found at the configured path, the app automatically falls back to built-in sample data so the UI is still usable.
 
 ## API
+The list of API endpoints can found on Swagger UI on http://localhost:8080/docs (or [8000](http://localhost:8000/) if run without docker).  
 
-| Endpoint                          | Description                              |
-|-----------------------------------|------------------------------------------|
-| `GET /api/users`                  | All users with total play counts         |
-| `GET /api/user/<name>/top-songs`  | Top 10 songs for a user                  |
-| `GET /api/user/<name>/top-albums` | Top 10 albums for a user                 |
-| `GET /api/user/<name>/top-artists`| Top 10 artists for a user                |
-| `GET /api/compare/songs`          | Cross-user play matrix (top 20 songs)    |
+![Swagger UI](./docs/FastAPI_Swagger-UI.png)
+
+## Screenshots
+- Overview
+![Swagger UI](./docs/Overview_Navidrome-Stats.png)
+- Comparison
+![Swagger UI](./docs/Comparison_Navidrome-Stats.png)
+- User Details
+![Swagger UI](./docs/User_Navidrome-Stats-de.png)

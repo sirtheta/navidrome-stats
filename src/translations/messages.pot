@@ -1,0 +1,136 @@
+# Translations template for PROJECT.
+# Copyright (C) 2026 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2026-06-13 12:45+0330\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: app/api/html_routes.py:39 app/api/routes.py:48 app/api/routes.py:57
+#: app/api/routes.py:65
+msgid "user not found"
+msgstr ""
+
+#: templates/base.html:41 templates/index.html:1 templates/index.html:3
+#: templates/user.html:5
+msgid "Overview"
+msgstr ""
+
+#: templates/base.html:45 templates/compare.html:1
+msgid "Comparison"
+msgstr ""
+
+#: templates/base.html:56
+msgid "Language"
+msgstr ""
+
+#: templates/base.html:63
+msgid "EN"
+msgstr ""
+
+#: templates/base.html:70
+msgid "DE"
+msgstr ""
+
+#: templates/base.html:85
+msgid "Sample data active"
+msgstr ""
+
+#: templates/base.html:86
+msgid "No Navidrome volume mounted"
+msgstr ""
+
+#: templates/base.html:87
+msgid "not found"
+msgstr ""
+
+#: templates/compare.html:3
+msgid "User Comparison"
+msgstr ""
+
+#: templates/compare.html:5
+msgid "Global Top 20 Songs — Plays per User Comparison."
+msgstr ""
+
+#: templates/compare.html:13
+msgid "Loading data"
+msgstr ""
+
+#: templates/compare.html:24
+msgid "No data available"
+msgstr ""
+
+#: templates/compare.html:47 templates/index.html:16 templates/user.html:27
+#: templates/user.html:60 templates/user.html:127 templates/user.html:130
+#: templates/user.html:133
+msgid "Plays"
+msgstr ""
+
+#: templates/compare.html:60
+msgid "Song"
+msgstr ""
+
+#: templates/index.html:27
+msgid "Plays per User"
+msgstr ""
+
+#: templates/index.html:35
+msgid "Global Top 10 Songs"
+msgstr ""
+
+#: templates/index.html:41 templates/user.html:25
+msgid "Title"
+msgstr ""
+
+#: templates/index.html:42 templates/user.html:26 templates/user.html:59
+#: templates/user.html:92
+msgid "Artist"
+msgstr ""
+
+#: templates/index.html:43 templates/index.html:68
+msgid "Total Plays"
+msgstr ""
+
+#: templates/index.html:61
+msgid "Global Top 10 Artists"
+msgstr ""
+
+#: templates/index.html:67
+msgid "Name"
+msgstr ""
+
+#: templates/user.html:18
+msgid "Top Songs"
+msgstr ""
+
+#: templates/user.html:41 templates/user.html:73 templates/user.html:107
+msgid "No plays available."
+msgstr ""
+
+#: templates/user.html:52
+msgid "Top Artists"
+msgstr ""
+
+#: templates/user.html:84
+msgid "Top Albums"
+msgstr ""
+
+#: templates/user.html:91
+msgid "Album"
+msgstr ""
+
+#: templates/user.html:93
+msgid "Plays (Tracks)"
+msgstr ""
+

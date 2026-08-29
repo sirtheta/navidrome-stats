@@ -17,3 +17,6 @@ build/
 .vscode/
 .idea/
 *.swp
+
+# Ignore compiled translation files
+*.mo
