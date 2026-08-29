@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/sirtheta/navidrome-stats/compare/v1.1.0...v1.1.1) (2026-08-29)
+
+
+### Bug Fixes
+
+* docker build and ci: add PR validation workflow ([#5](https://github.com/sirtheta/navidrome-stats/issues/5)) ([4f77dd6](https://github.com/sirtheta/navidrome-stats/commit/4f77dd65ed9a9c3ff29de40568dc88fa41bb5574))
+
 ## [1.1.0](https://github.com/sirtheta/navidrome-stats/compare/v1.0.1...v1.1.0) (2026-08-29)
 
 
