@@ -51,13 +51,14 @@ ignore = [
 	#"B904",   # raise error in try/except
 	"B008",   # call Depends() in parameter default
 	"ANN002",
-	"ANN101",
-	"ANN102",
 	"N818",   # Error suffix for exceptions
 ]
 
-#[tool.ruff.lint.per-file-ignores]
-#"tests/*" = ["ANN"]
+[tool.ruff.lint.per-file-ignores]
+"app/api/html_routes.py" = ["ANN201"]
+"app/api/i18n.py" = ["ANN201"]
+"app/api/routes.py" = ["ANN201"]
+"tests/*.py" = ["ANN001", "ANN201"]
 # "extra/*" = ["E501"]
 # "app/models.py" = ["E501"]
 #"tests/conftest.py" = ["E402", "N806"]
