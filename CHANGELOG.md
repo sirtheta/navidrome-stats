@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.2](https://github.com/sirtheta/navidrome-stats/compare/v1.1.1...v1.1.2) (2026-08-29)
+
+
+### Bug Fixes
+
+* align docker port documentation ([b82b1b0](https://github.com/sirtheta/navidrome-stats/commit/b82b1b0c4aa6ac1b1cbaa81952d5c780aea9a910))
+
 ## [1.1.1](https://github.com/sirtheta/navidrome-stats/compare/v1.1.0...v1.1.1) (2026-08-29)
 
 
