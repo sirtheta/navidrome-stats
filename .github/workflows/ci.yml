@@ -40,6 +40,10 @@ jobs:
         working-directory: src
         run: uv run ruff check .
 
+      - name: Compile translations
+        working-directory: src
+        run: uv run pybabel compile -d translations
+
       - name: Run tests
         working-directory: src
         run: uv run pytest
