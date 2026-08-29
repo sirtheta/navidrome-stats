@@ -17,6 +17,6 @@ RUN uv sync --frozen
 # Copy the rest of the application code
 COPY . .
 
-EXPOSE 5000
+EXPOSE 8000
 
 ENTRYPOINT ["sh", "./entrypoint.sh"]

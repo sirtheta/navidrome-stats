@@ -34,7 +34,7 @@ A web dashboard for visualizing listening statistics from a [Navidrome](https://
    docker compose up -d
    ```
 
-The dashboard is then available at `http://localhost:8080` (or whichever port you configured).
+The app listens on port `8000` inside the container. Docker publishes that to the host via `HOST_PORT`, so the dashboard is available at `http://localhost:8080` (or whichever port you configured).
 
 ## Docker Image
 
@@ -65,7 +65,7 @@ uv run fastapi dev
 If `navidrome.db` is not found at the configured path, the app automatically falls back to built-in sample data so the UI is still usable.
 
 ## API
-The list of API endpoints can found on Swagger UI on http://localhost:8080/docs (or [8000](http://localhost:8000/) if run without docker).  
+The list of API endpoints can be found on Swagger UI at `http://localhost:8080/docs` (or `http://localhost:8000/docs` when running locally without Docker). The app itself listens on `8000` inside the container; the host port is mapped by `HOST_PORT`.
 
 ![Swagger UI](./docs/FastAPI_Swagger-UI.png)
 
